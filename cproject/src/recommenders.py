@@ -19,7 +19,7 @@ class MainRecommender:
         Матрица взаимодействий user-item
     """
 
-    def __init__(self, data, weighting=True):
+    def __init__(self, data, weighting=True, als=True, own=True):
 
         # Топ покупок каждого юзера
         self.top_purchases = data.groupby(['user_id', 'item_id'])['quantity'].count().reset_index()
@@ -39,8 +39,11 @@ class MainRecommender:
         if weighting:
             self.user_item_matrix = bm25_weight(self.user_item_matrix.T).T
 
-        self.model = self.fit(self.user_item_matrix)
-        self.own_recommender = self.fit_own_recommender(self.user_item_matrix)
+        if als == True:
+            self.model = self.fit(self.user_item_matrix)
+
+        if own == True:
+            self.own_recommender = self.fit_own_recommender(self.user_item_matrix)
 
     @staticmethod
     def _prepare_matrix(data):

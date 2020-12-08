@@ -30,13 +30,13 @@ def prefilter_items(data, take_n_popular=5000, item_features=None):
 
 
     # Уберем слишком дешевые товары (на них не заработаем). 1 покупка из рассылок стоит 60 руб.
-    data['price'] = data['sales_value'] / (np.maximum(data['quantity'], 1))
-    data = data[data['price'] > 2]
+    #data['price'] = data['sales_value'] / (np.maximum(data['quantity'], 1))
+    #data = data[data['price'] > 2]
 
-    # Уберем слишком дорогие товарыs
-    data = data[data['price'] < 50]
+    # Уберем слишком дорогие товары
+    #data = data[data['price'] < 50]
 
-    # Возбмем топ по популярности
+    # Возьмем топ по популярности
     popularity = data.groupby('item_id')['quantity'].sum().reset_index()
     popularity.rename(columns={'quantity': 'n_sold'}, inplace=True)
 
